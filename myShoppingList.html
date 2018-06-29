@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl"> <!--declare ng-app, ng-controller -->
+    <ul ng-repeat="x in products"> <!--use ng-repeat at the parent tag to show at child tag-->
+        <li>{{x}}<span ng-click="removeItem($index)">&times;</span></li>  <!--good at $index-->
+    </ul>
+    <input ng-model="inputProduct"/>
+    <button ng-click="addItem()">Add</button>
+
+
+<p>So far we have made an HTML list based on the items of an array.</p>
+<p ng-bind="errortext"></p>
+</div>
+<script>
+    var app = angular.module("myApp",[]);
+    app.controller("myCtrl",function($scope){
+        $scope.products = ['Milk', 'Cheese','Potato']; // missing $scope
+        $scope.addItem = function(){    //wrong syntax
+            if(!$scope.inputProduct){
+                return; //break out the function when inputProduct is null
+            };
+            if ($scope.products.indexOf($scope.inputProduct) == -1) { //if value has index = -1 in that array <=> it hasn't been in that array
+                $scope.products.push($scope.inputProduct); //wrong syntax at push(value)
+                $scope.errortext = "";
+            } else {
+                $scope.errortext = "The item is already in your shopping list.";
+            }
+            $scope.inputProduct ="";
+        };
+        $scope.removeItem = function (x) {
+            $scope.products.splice(x, 1); //remove 1 item at index x
+        } 
+    });
+    </script>
+</body>
+</html>
